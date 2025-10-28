@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <script>
+fetch('Le_Site_De_Raykesh.html')
+.then(response => response.text())
+.then(htmlText => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlText, 'text/html');
+
+    // Copier head
+    const sourceHead = doc.querySelector('head');
+    if(sourceHead) {
+        Array.from(sourceHead.children).forEach(el => {
+            if(el.tagName.toLowerCase() !== 'title') {
+                document.head.appendChild(el.cloneNode(true));
+            }
+        });
+    }
+
+    // Copier nav
+    const nav = doc.querySelector('nav');
+    if(nav) {
+        document.body.insertAdjacentElement('afterbegin', nav.cloneNode(true));
+    }
+
+    // --- ICI, après insertion de la nav ---
+    const params = new URLSearchParams(window.location.search);
+    const user = params.get('user');
+    const avatar = params.get('avatar');
+
+    // Mettre à jour user
+    if(user) {
+        alert(`Vous êtes connecté en tant que ${user}`);
+        const usernameEl = document.getElementById('username');
+        if(usernameEl) usernameEl.textContent = user;
+    }
+
+    // Mettre à jour avatar
+    if(avatar) {
+        const imgEl = document.querySelector('.LeProfile img');
+        if(imgEl) imgEl.src = avatar;
+    }// tester avec ?user=Raykesh2&avatar=https://avatars.githubusercontent.com/u/176900346?v=4 dans l'URL
+
+    // Mettre à jour liens vers CTF.html
+    const ctfLinks = document.querySelectorAll('a[href="CTF.html"]');
+    ctfLinks.forEach(link => {
+        link.href = `CTF.html${window.location.search}`;
+    });
+
+})
+.catch(err => console.error(err));
+</script>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1em;
+    }
+    thead {
+        background-color: #222;
+        color: #fff;
+    }
+    td, th {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #f5f5f5;
+    }   
+
+/* Container UL */
+ul.user-select {
+    list-style: none; /* Supprime les puces */
+    padding: 0;
+    display: flex;
+    gap: 20px; /* Espace entre les utilisateurs */
+    justify-content: center; /* Centré horizontalement */
+    margin-top: 50px;
+}
+
+/* Chaque item */
+ul.user-select li {
+    background-color: #f0f0f0; /* gris clair */
+    border-radius: 12px;
+    padding: 15px 25px;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* H1 à l’intérieur */
+ul.user-select li h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Liens */
+ul.user-select li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Hover / focus */
+ul.user-select li:hover,
+ul.user-select li:focus-within {
+    background-color: #007bff; /* bleu */
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+ul.user-select li:hover a,
+ul.user-select li:focus-within a {
+    color: #fff;
+}
+</style>
+</head>
+<body>
+    <ul class="user-select">
+        <li><h1><a href="./Le_Site_De_Raykesh.html?user=Raykesh&https://avatars.githubusercontent.com/u/102523616?v=4" target="_blank" rel="noopener noreferrer">Raykesh</a></h1></li>
+        <li><h1><a href="./Le_Site_De_Raykesh.html?user=Raykesh2&avatar=https://avatars.githubusercontent.com/u/176900346?v=4" target="_blank" rel="noopener noreferrer">Raykesh2</a></h1></li>
+    </ul>
+</body>
+</html>
