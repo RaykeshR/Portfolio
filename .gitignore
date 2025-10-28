@@ -1,0 +1,23 @@
+# images
+.env
+*.env
+*/.env
+**/.env
+
+# Fichiers temporaires
+*.swp
+*.swo
+*~
+
+# Les Paquets / archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+# *.zip
+
+# Les Logs 
+*.log.env

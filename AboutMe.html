@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // A terme, il faudra le placer dans un fichier Js à part
+        var path = window.location.pathname;
+        var page = path.split("/").pop();
+        // document.getElementById("output").innerHTML = page;
+        document.title  = " |" + page + "| Raykesh: Bienvenue dans mon protfolio. ";
+        console.log(" Le titre de la page est : " + document.title);
+        console.log( page );
+        function htmlInclusion() {
+          var z, i, elmnt, file, xhttp;
+          z = document.getElementsByTagName("*");
+          for (i = 0; i < z.length; i++) {
+            elmnt = z[i];file = elmnt.getAttribute("html_Inclusion");
+            if (file) {
+              xhttp = new XMLHttpRequest();/* Lance une requête http et récupère la valeur html_Inclusion */
+              xhttp.onreadystatechange = function() {
+                if (this.readyState == 4) {
+                  if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                  if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                  elmnt.removeAttribute("html_Inclusion");htmlInclusion();
+                }
+              }
+              xhttp.open("GET", file, true);xhttp.send();return;
+            }
+          }
+        }
+        function blocklinkR() {
+            const elem = document.getElementById("f");
+            elem.children('a').removeAttr('href');
+        }
+    </script>
+    <!-- <link rel="icon" type="image/x-icon" href="/images/logo.ico"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="./images/logo.ico?">
+    <meta name="author" content="Raykesh" />
+    <meta name="keywords" content="AboutMe">
+</head>
+<body>
+    <p>About Me : </p>
+    Je suis Raykesh, j'ai créé ce site. Ici, vous trouverez le lien vers la partie cybersécurité. Elle est un peu cachée pour des questions de sécurité. 
+    à SUIVRE...
+    <ul><a href="Le_Site_De_Raykesh.html" rel="noopener noreferrer" title="Page Principale"><li> Home      </li></a></ul>
+    <ul><a href="Cyber/Cyber.html" rel="noopener noreferrer" title="êtes vous sûr? êtes vous sûr de vouloir cliquer?" style="cursor: not-allowed;"><li> Cyber      </li></a></ul>
+    <ul><a href="CTF.html" rel="noopener noreferrer" title="CTF"><li> CTF      </li></a></ul>
+    <!-- <ul><a href="Cyber/Cyber.html"  title="êtes vous sûr? êtes vous sûr de vouloir cliquer?"><li> Cyber      </li></a></ul> -->
+    <div id="f">
+        <div html_Inclusion="Le_Site_De_Raykesh.html"></div>
+        <script>htmlInclusion();</script>
+    </div>
+    <script>blocklinkR();</script>
+    à SUIVRE...
+</body>
+</html>

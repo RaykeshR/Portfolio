@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <script>
+fetch('Le_Site_De_Raykesh.html')
+.then(response => response.text())
+.then(htmlText => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlText, 'text/html');
+
+    // Copier head
+    const sourceHead = doc.querySelector('head');
+    if(sourceHead) {
+        Array.from(sourceHead.children).forEach(el => {
+            if(el.tagName.toLowerCase() !== 'title') {
+                document.head.appendChild(el.cloneNode(true));
+            }
+        });
+    }
+
+    // Copier nav
+    const nav = doc.querySelector('nav');
+    if(nav) {
+        document.body.insertAdjacentElement('afterbegin', nav.cloneNode(true));
+    }
+
+    // --- ICI, après insertion de la nav ---
+    const params = new URLSearchParams(window.location.search);
+    const user = params.get('user');
+    const avatar = params.get('avatar');
+
+    // Mettre à jour user
+    if(user) {
+        alert(`Vous êtes connecté en tant que ${user}`);
+        const usernameEl = document.getElementById('username');
+        if(usernameEl) usernameEl.textContent = user;
+    }
+
+    // Mettre à jour avatar
+    if(avatar) {
+        const imgEl = document.querySelector('.LeProfile img');
+        if(imgEl) imgEl.src = avatar;
+    }// tester avec ?user=Raykesh2&avatar=https://avatars.githubusercontent.com/u/176900346?v=4 dans l'URL
+
+    // Mettre à jour liens vers CTF.html
+    const ctfLinks = document.querySelectorAll('a[href="CTF.html"]');
+    ctfLinks.forEach(link => {
+        link.href = `CTF.html${window.location.search}`;
+    });
+
+})
+.catch(err => console.error(err));
+</script>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1em;
+    }
+    thead {
+        background-color: #222;
+        color: #fff;
+    }
+    td, th {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #f5f5f5;
+    }   
+
+</style>
+</head>
+<body>
+    
+    <section class="CTF-intro">
+        <h1>Capture The Flag - Raykesh</h1>
+        <p>Ce CTF consiste à trouver des flags cachés dans le repository GitHub. Chaque flag a une forme spécifique et valide uniquement si elle est correcte.</p>
+        <p> Analyse du code source, recherche de chaînes cachées, compréhension des scripts JS et HTML. Aucun hack externe n’est autorisé.</p>
+    </section>
+    <!-- 
+    Flag : 
+    3 faciles (code source en clair)
+    3 moyens/dur (chiffré)
+    4 Très dur/impossible (multiple chiffrement)
+    -->
+
+    <section class="CTF-rules">
+        <h2>Règles et format des flags</h2><!-- CTF{faussePiste} -->
+        <ul>
+            <li>Format des flags : <p><code>CTF_Raykesh{exemple_de_flag_pour_le_ctf}</code></p></li>
+            <li>Limites : recherchez uniquement dans le repo GitHub officiel. (pas les redirections)</li>
+            <li>Pas de liens externes, pas de brute force.</li>
+            <li>La premiere personne à trouvez un nouveau Flag et à le partager dans la discussions GitHub avec son nom et prénom.</li>
+            <li hidden>Partager les flags trouvés dans la 
+<a href="https://github.com/TODO/discussions" target="_blank"  title="discussion GitHub" rel="noopener noreferrer" >discussion GitHub</a>.</li>
+        </ul>
+    </section>
+
+    <section class="CTF-leaderboard">
+        <h2>Classement des premiers participants</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Nom / Prénom (Pseudo)</th>
+                    <th>Flag trouvé</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr hidden>
+                    <td>1</td>
+                    <td>Raykesh Ravirooban (RaykeshR)</td>
+                    <td>CTF_Raykesh{exemple}</td>
+                </tr>
+                <!-- Ajouter les 10 premiers -->
+                 <tr id="no-flag">
+                    <td  colspan="3">Aucun flag trouvé pour le moment</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+</body>
+</html>

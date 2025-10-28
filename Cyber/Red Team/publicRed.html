@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body hidden>
+    <!-- à Changer -->
+    <label for="pubkeyRed">Public Key</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...
+    <textarea id="pubkeyRed" rows="15" cols="65" hidden> </textarea><br/>
+</body>
+</html>
+<script src="../jsencrypt.min.js"></script>
+<script>
+    var encrypt = new JSEncrypt();
+    encrypt.setPublicKey(document.getElementById("pubkeyRed").value);
+    console.log(document.getElementById("pubkeyRed").value)
+</script>
